@@ -15,7 +15,8 @@ NAME = fdf
 FILES = main.c \
         readnparse.c \
 		keyninit.c \
-		draw.c
+		draw.c \
+		projection.c
 
 OBJ = $(FILES:.c=.o)
 

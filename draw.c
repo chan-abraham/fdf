@@ -25,9 +25,33 @@ void    img_pixel_put(t_img *img, int x, int y, int color)
 
 void    draw_line(t_map *mastermap, t_cords first, t_cords second)
 {
-    img_pixel_put(mastermap->img, i++, WNDW_HGHT / 2, 0xFFFFFF);
-}
+    float   dx;
+    float   dy;
+    float   p;
+    float   x;
+    float   y;
 
+    dx = second.px - first.px;
+    dy = second.py - first.py;
+    x = first.px;
+    y = first.py;
+    p = 2 * dy - dx;
+    while(x < second.px)
+    {
+        if (p >= 0)
+        {
+            img_pixel_put(mastermap->img, x, y, 0xFFFFFF);
+            y = y + 1;
+            p = p + 2 * dy;
+        }
+        else
+        {
+            img_pixel_put(mastermap->img, x, y, 0xFFFFFF);
+            p = p + 2 * dy;
+        }
+        x = x + 1;
+    }
+}
 
 void    draw_map(t_map *mastermap)
 {
@@ -49,4 +73,5 @@ void    draw_map(t_map *mastermap)
         }
         y++;
     }
+    mlx_put_image_to_window(mastermap->mlx, mastermap->win, mastermap->img->ptr, 0, 0);
 }

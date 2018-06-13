@@ -37,6 +37,8 @@ int		key_event(int keycode, t_map *mastermap)
 		mastermap->perspective = (mastermap->perspective == 0) ? 1 : 0;//turn perspective mode on
 	if (keycode == SPACKEY)
 		initialize(mastermap);//reset
+	calculate_proj(mastermap);
+	ft_putchar('d');
 	draw_map(mastermap);
 	return (0);
 }

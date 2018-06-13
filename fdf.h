@@ -33,6 +33,8 @@ typedef struct	s_cords
 	float	x;
 	float	y;
 	float	z;
+	float	px;
+	float	py;
 }				t_cords;
 
 typedef struct s_img
@@ -65,6 +67,7 @@ int			key_event(int keycode, t_map *mastermap);
 void    img_pixel_put(t_img *img, int x, int y, int color);
 void	initialize(t_map *mastermap);
 void	draw_map(t_map *mastermap);
+void	calculate_proj(t_map *mastermap);
 
 
 
