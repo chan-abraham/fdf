@@ -16,7 +16,12 @@ FILES = main.c \
         readnparse.c \
 		keyninit.c \
 		draw.c \
-		projection.c
+		projection.c \
+		matrix.c \
+		transformation.c \
+		transformation2.c \
+		jfj.c
+		
 
 OBJ = $(FILES:.c=.o)
 

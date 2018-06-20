@@ -32,11 +32,11 @@ t_cords	*readmap(int fd, t_cords *mapcords, int pointcount)
 			mapcords[i * wordcount + j].x = (float)j - (wordcount / 2);
 			mapcords[i * wordcount + j].y = (float)i - ((pointcount/wordcount) / 2);
 			mapcords[i * wordcount + j].z = (float)ft_atoi(nbrsplit[j]);
+			mapcords[i * wordcount + j].homocord = 1;
 		}
 		ft_memdel((void **)&nbrsplit);
 		i++;
 	}
-	ft_putchar('5');
 	return(mapcords);
 }
 
