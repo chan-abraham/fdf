@@ -6,7 +6,7 @@
 #    By: abchan <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/08 16:09:04 by abchan            #+#    #+#              #
-#    Updated: 2018/05/22 10:42:46 by abchan           ###   ########.fr        #
+#    Updated: 2018/06/22 15:39:34 by abchan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,7 @@ FILES = main.c \
 		projection.c \
 		matrix.c \
 		transformation.c \
-		transformation2.c \
-		jfj.c
+		transformation2.c
 		
 
 OBJ = $(FILES:.c=.o)
