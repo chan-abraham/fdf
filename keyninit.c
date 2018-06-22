@@ -20,6 +20,7 @@ void	free_mlx(t_map *mastermap)
 	while (i < mastermap->pointcount)
 		ft_memdel((void **)&mastermap->mapcords[i++]);
 	ft_memdel((void **)&mastermap->img);
+	ft_memdel((void **)&mastermap->mapcords);
 	ft_memdel((void **)&mastermap);
 }
 
