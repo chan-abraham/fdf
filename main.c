@@ -31,10 +31,11 @@ int		main(int argc, char **argv)
 {
 	t_map	*mastermap;
 	
-	if (!(mastermap = (t_map *)malloc(sizeof(t_map))))
-		return (0);
+	
 	if (argc == 2)
 	{
+		if (!(mastermap = (t_map *)malloc(sizeof(t_map))))
+			return (0);
 		if (!(mastermap = readnparse(argv[1], mastermap)))
 			return (0);
 		mastermap->mlx = mlx_init();

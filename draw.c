@@ -22,37 +22,33 @@ void    img_pixel_put(t_img *img, int x, int y, int color)
     if (x >= 0 && x < WNDW_WDTH && y >= 0 && y < WNDW_HGHT)
         *(int *)(img->data_addr + (x + y * WNDW_WDTH) * img->bbp) = color;
 }
-/*
-void    draw_line(t_map *mastermap, t_cords first, t_cords second)
-{
-    float   dx;
-    float   dy;
-    float   p;
-    float   x;
-    float   y;
 
-    dx = fabsf(second.px - first.px);
-    dy = fabsf(second.py - first.py);
-    x = first.px;
-    y = first.py;
-    p = 2 * dy - dx;
-    while(x < second.px)
-    {
-        if (p >= 0)
-        {
-            img_pixel_put(mastermap->img, x, y, 0xFFFFFF);
-            y = y + 1;
-            p = p + 2 * dy;
-        }
-        else
-        {
-            img_pixel_put(mastermap->img, x, y, 0xFFFFFF);
-            p = p + 2 * dy;
-        }
-        x = x + 1;
-    }
+long     get_color(t_map *mastermap, float steps, float z, float color)
+{
+    long     value;
+    long     slope;
+    int     i;
+
+    if (!mastermap->color)
+        return (0xFFFFFF);
+    slope = 0;
+    value = 0;
+    if (color > 0)
+        slope = 1;
+    else if (color < 0)
+        slope = -1;
+    if (slope == 1)
+        value = steps / (8 *color) * 64;
+    else if (slope == -1)
+        value = (fabsf(color) - steps) / (8 * fabsf(color)) * 64;
+    else if (slope == 0)
+        value = -z / (fabsf((float)mastermap->minmapdepth) + fabsf((float)mastermap->maxmapdepth)) * 128;
+    i = 5;
+    while (i >= 0)
+        slope = slope + pow(16, i--);
+    slope = slope * value;
+    return (/*5534609*/ 5521727 + slope);
 }
-*/
 
 void    draw_line(t_map *mastermap, t_cords first, t_cords second)
 {
@@ -61,17 +57,37 @@ void    draw_line(t_map *mastermap, t_cords first, t_cords second)
     float   steps;
     float   x;
     float   y;
-
+    float   color;
+    
     dx = second.px - first.px;
     dy = second.py - first.py;
     steps = fabsf(dx) > fabsf(dy) ? fabsf(dx) : fabsf(dy);
     dx = dx / steps;
     dy = dy / steps;
+  //  printf("%.6f,", first.z);
+    //printf("%.6f,", first.x);
+  //  printf("%.6f,", first.y);
+   // printf("%.6f,\n", second.z);
+        
+    color = first.z < second.z ? steps : -steps;
+    color = (first.z == second.z) ? 0 : color; 
+   // printf("%.6f,", first.z);
+   // printf("%.6f,\n", second.z);
     x = first.px;
     y = first.py;
     while (steps >= 0)
     {
-        img_pixel_put(mastermap->img, x, y, 0xFFFFFF);
+        img_pixel_put(mastermap->img, x, y, get_color(mastermap, steps, first.z, color));
+      /*  printf("%.6f", first.z);
+        ft_putchar(',');
+        printf("%.6f", second.z);
+        ft_putchar(',');
+        ft_putnbr((int)color);
+        ft_putchar(',');
+        ft_putnbr((int)steps);
+        ft_putchar(',');
+        ft_putnbr(get_color(mastermap, steps, first.z, color));
+        ft_putchar('\n');*/
         x = x + dx;
         y = y + dy;
         steps--;

@@ -58,21 +58,12 @@ typedef struct s_img
 	int		line_size;
 	int		endian;
 }				t_img;
-/*
-typedef struct	s_matrix
-{
-	float	**translate;
-	float	**scale;
-	float	**rotate;
-}				t_matrix;
-*/
 typedef struct	s_map
 {
 	void	*mlx;
 	void	*win;
 	t_img	*img;
 	t_cords	*mapcords;
-//	t_matrix	mtrx;
 	int		xtrans;
 	int		ytrans;
 	int		scale;
@@ -83,7 +74,9 @@ typedef struct	s_map
 	int 	pointcount;
 	int		mapwidth;
 	int		mapheight;
-
+	int		maxmapdepth;
+	int		minmapdepth;
+	int		color;
 }				t_map;
 
 t_map		*readnparse(char *filename, t_map *mastermap);
@@ -93,8 +86,7 @@ void	initialize(t_map *mastermap);
 void	draw_map(t_map *mastermap);
 void	calculate_proj(t_map *mastermap);
 float   **ft_memalloc_matrix(size_t size);
-// void matrix_compute(t_cords mapcords, float **matrix);
-void    matrix_compute(t_cords *mapcords, int i, float **matrix);
+void    matrix_compute_to_projected(t_cords *mapcords, int i, float **matrix);
 void    translation(t_map *mastermap);
 void    ft_free_matrix(float **matrix, size_t size);
 void    matrix_compute_projected(t_cords *mapcords, int i, float **matrix);
@@ -106,8 +98,6 @@ void    perspection(t_map *mastermap);
 void    orthogration(t_map *mastermap);
 void    reflection(t_map *mastermap);
 void    matrix_compute_perspective(t_cords *mapcords, int i, float **matrix);
-
-
-
+void	free_mlx(t_map *mastermap);
 
 #endif

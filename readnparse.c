@@ -13,7 +13,18 @@
 
 #include "fdf.h"
 
-t_cords	*readmap(int fd, t_cords *mapcords, int pointcount)
+
+
+
+void	find_depth_z(t_map *mastermap, float z)
+{
+	if ((int)z > mastermap->maxmapdepth)
+		mastermap->minmapdepth = z;
+	if ((int)z < mastermap->minmapdepth)
+		mastermap->maxmapdepth = z;
+}
+
+t_cords	*readmap(t_map *mastermap, int fd, t_cords *mapcords)
 {
 	char	*line;
 	int		i;
@@ -29,10 +40,12 @@ t_cords	*readmap(int fd, t_cords *mapcords, int pointcount)
 		nbrsplit = ft_strsplit(line, ' ');
 		while (j++ < wordcount - 1)
 		{
-			mapcords[i * wordcount + j].x = (float)j - (wordcount / 2);
-			mapcords[i * wordcount + j].y = (float)i - ((pointcount/wordcount) / 2);
-			mapcords[i * wordcount + j].z = (float)ft_atoi(nbrsplit[j]);
+			mapcords[i * wordcount + j].x = (float)j;
+			mapcords[i * wordcount + j].y = (float)i;
+			mapcords[i * wordcount + j].z = -(float)ft_atoi(nbrsplit[j]);
+			find_depth_z(mastermap, mapcords[i * wordcount + j].z);
 			mapcords[i * wordcount + j].homocord = 1;
+			ft_memdel((void **)nbrsplit[j]);
 		}
 		ft_memdel((void **)&nbrsplit);
 		i++;
@@ -46,6 +59,8 @@ t_cords	*readmap(int fd, t_cords *mapcords, int pointcount)
 ** if it is not, it will return 0. I know I should be setting this data 
 ** instead in linked list to prevent reading again later, so I'll change this
 ** if this is too inefficient to function or if I stop being lazy.
+** ok nevermind, I took this opportunity to initialize a few things, not going
+** to change it.
 */
 
 int		countmap(char *filename, t_map *mastermap)
@@ -68,6 +83,8 @@ int		countmap(char *filename, t_map *mastermap)
 	}
 	mastermap->mapwidth = wordcount;
 	mastermap->mapheight = i;
+	mastermap->maxmapdepth = 0;
+	mastermap->minmapdepth = 0;
 	close(fd);
 	return(wordcount * i);
 }
@@ -92,7 +109,7 @@ t_map	*readnparse(char *filename, t_map *mastermap)
 		ft_putendl("Error: Malloc");
 		return (NULL);
 	}
-	if ((mastermap->mapcords = readmap(fd, mapcords, mastermap->pointcount)) == NULL)
+	if ((mastermap->mapcords = readmap(mastermap, fd, mapcords)) == NULL)
 		return (NULL);
 	close(fd);
 	return (mastermap);

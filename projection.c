@@ -12,41 +12,44 @@
 
 #include "fdf.h"
 
-void    calculate_proj(t_map *mastermap)
-{/*
+void    move_to_origin(t_map *mastermap)
+{
+    float   **matrix;
     int i;
+    
+    matrix = ft_memalloc_matrix(4);
+    matrix[0][0] = 1;
+    matrix[0][3] = -(mastermap->mapwidth / 2);
+    matrix[1][1] = 1;
+    matrix[1][3] = -((mastermap->pointcount / mastermap->mapwidth) / 2);
+    matrix[2][2] = 1;
+    matrix[2][3] = (-(mastermap->maxmapdepth - mastermap->minmapdepth) / 2);
+    matrix[3][3] = 1;
+
     i = 0;
     while (i < mastermap->pointcount)
+        matrix_compute_to_projected(mastermap->mapcords, i++, matrix);
+    ft_free_matrix(matrix, 4);
+}
+
+void    calculate_proj(t_map *mastermap)
+{
+    move_to_origin(mastermap);
+    rotation_z(mastermap);
+    rotation_y(mastermap);
+    rotation_x(mastermap);
+    if (!mastermap->perspective)
     {
-        mastermap->mapcords[i].px = mastermap->mapcords[i].x;
-        mastermap->mapcords[i].py = mastermap->mapcords[i].y;
-        i++;
+        scalation(mastermap);
+        translation(mastermap);
     }
-    */
     if (mastermap->perspective)
+    {
         perspection(mastermap);
+        scalation(mastermap);
+        translation(mastermap);
+    }
+    
     else
         orthogration(mastermap);
-    //reflection(mastermap);
-    if (mastermap->rotatez)
-        rotation_z(mastermap);
-    if (mastermap->rotatey)
-        rotation_y(mastermap);
-    if (mastermap->rotatex)
-        rotation_x(mastermap);
-    scalation(mastermap);
-    if (mastermap->xtrans != 0 || mastermap->ytrans != 0)
-        translation(mastermap);
-    ft_putstr("printing below VVVVVV");
-    ft_putchar('\n');
-    ft_putnbr(mastermap->mapcords[0].px);
-    ft_putchar(',');
-    ft_putnbr(mastermap->mapcords[0].py);
-    ft_putchar('\n');
-    /*
-    if (mastermap->perspective != 0)
-        apply_perspective(mastermap->mapcords);
-    else
-        apply_orthographic(mastermap->mapcords);
-    */ 
 }

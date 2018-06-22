@@ -83,7 +83,6 @@ void    scalation(t_map *mastermap)
     ft_free_matrix(matrix, 4);
 }
 
-
 void     translation(t_map *mastermap)
 {
     float   **matrix;

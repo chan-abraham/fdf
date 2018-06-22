@@ -12,28 +12,41 @@
 
 #include "fdf.h"
 
+void	free_mlx(t_map *mastermap)
+{
+	int		i;
+
+	i = 0;
+	while (i < mastermap->pointcount)
+		ft_memdel((void **)&mastermap->mapcords[i++]);
+	ft_memdel((void **)&mastermap->img);
+	ft_memdel((void **)&mastermap);
+}
+
 void	initialize(t_map *mastermap)
 {
 	mlx_clear_window(mastermap->mlx, mastermap->win);
 	mastermap->xtrans = WNDW_WDTH / 2;
 	mastermap->ytrans = WNDW_HGHT / 2;
 	mastermap->scale = WNDW_WDTH / (mastermap->mapwidth * 3);
-	mastermap->rotatex = -5;
+	mastermap->rotatex = 0;
 	mastermap->rotatey = 0;
-	mastermap->rotatez = 2;
+	mastermap->rotatez = 0;
 	mastermap->perspective = 0;
+	mastermap->color = 1;
 //	mlx_put_image_to_window(mastermap->mlx, mastermap->win, mastermap->img->ptr, 0, 0);
 }
 
 int		key_event(int keycode, t_map *mastermap)
 {
-	ft_putstr("the keycode is");
-	ft_putchar('-');
-	ft_putnbr(keycode);
-	ft_putchar('-');
+//	ft_putstr("the keycode is");
+//	ft_putchar('-');
+//	ft_putnbr(keycode);
+//	ft_putchar('-');
 //	ft_bzero(mastermap->img->ptr, WNDW_HGHT * WNDW_WDTH * mastermap->img->bbp);
 	if (keycode == ESCKEY)
 	{//free shit here
+		free_mlx(mastermap);
 		mlx_destroy_window(mastermap->mlx, mastermap->win);
 		exit(0);
 	}
