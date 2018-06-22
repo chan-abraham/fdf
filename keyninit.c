@@ -6,19 +6,35 @@
 /*   By: abchan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 20:12:42 by abchan            #+#    #+#             */
-/*   Updated: 2018/05/29 20:12:44 by abchan           ###   ########.fr       */
+/*   Updated: 2018/06/22 16:30:00 by abchan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+#define ESCKEY 53
+#define WKEY 13
+#define AKEY 0
+#define SKEY 1
+#define DKEY 2
+#define ONEKEY 83
+#define TWOKEY 84
+#define THREEKEY 85
+#define FOURKEY 86
+#define FIVEKEY 87
+#define SIXKEY 88
+#define SEVENKEY 89
+#define EIGHTKEY 91
+#define NINEKEY 92
+#define PLUSKEY 78
+#define MINUSKEY 69
+#define SPACKEY 49
 
 void	free_mlx(t_map *mastermap)
 {
 	int		i;
 
 	i = 0;
-	while (i < mastermap->pointcount)
-		ft_memdel((void **)&mastermap->mapcords[i++]);
 	ft_memdel((void **)&mastermap->img);
 	ft_memdel((void **)&mastermap->mapcords);
 	ft_memdel((void **)&mastermap);
@@ -30,53 +46,63 @@ void	initialize(t_map *mastermap)
 	mastermap->xtrans = WNDW_WDTH / 2;
 	mastermap->ytrans = WNDW_HGHT / 2;
 	mastermap->scale = WNDW_WDTH / (mastermap->mapwidth * 3);
-	mastermap->rotatex = 0;
+	mastermap->rotatex = -5;
 	mastermap->rotatey = 0;
-	mastermap->rotatez = 0;
+	mastermap->rotatez = 2;
 	mastermap->perspective = 0;
-	mastermap->color = 1;
-//	mlx_put_image_to_window(mastermap->mlx, mastermap->win, mastermap->img->ptr, 0, 0);
+	mastermap->color = 0;
+	mastermap->initializekey = 1;
+}
+
+int		key_event_two(int keycode, t_map *mastermap)
+{
+	if (keycode == SPACKEY)
+	{
+		initialize(mastermap);
+		ft_putendl("*********************************");
+		ft_putendl("**WASD = translation*************");
+		ft_putendl("**NUMPAD 2 & 8 = x axis rotate***");
+		ft_putendl("**NUMPAD 4 & 6 = y axis rotate***");
+		ft_putendl("**NUMPAD 7 & 9 = z axis rotate***");
+		ft_putendl("**NUMPAD + & - = scale***********");
+		ft_putendl("**NUMPAD 1 = perspective toggle**");
+		ft_putendl("**NUMPAD 3 = color toggle********");
+		ft_putendl("**SPACE BAR = reset**************");
+		ft_putendl("**ESC = EXIT*********************");
+		ft_putendl("*********************************");
+	}
+	if (mastermap->initializekey)
+	{
+		calculate_proj(mastermap);
+		draw_map(mastermap);
+	}
+	return (0);
 }
 
 int		key_event(int keycode, t_map *mastermap)
 {
-//	ft_putstr("the keycode is");
-//	ft_putchar('-');
-//	ft_putnbr(keycode);
-//	ft_putchar('-');
-//	ft_bzero(mastermap->img->ptr, WNDW_HGHT * WNDW_WDTH * mastermap->img->bbp);
 	if (keycode == ESCKEY)
-	{//free shit here
+	{
 		free_mlx(mastermap);
 		mlx_destroy_window(mastermap->mlx, mastermap->win);
 		exit(0);
 	}
 	if (keycode == AKEY || keycode == DKEY)
-		mastermap->xtrans += (keycode == AKEY) ? -TRANSLAT_AMT : +TRANSLAT_AMT;//translate x
+		mastermap->xtrans += (keycode == AKEY) ? -TRANSLAT_AMT : +TRANSLAT_AMT;
 	if (keycode == WKEY || keycode == SKEY)
-		mastermap->ytrans += (keycode == SKEY) ? +TRANSLAT_AMT : -TRANSLAT_AMT;//translate y
-	if (keycode == PLUS || keycode == MINUS)
-		mastermap->scale += (keycode == PLUS) ? +SCALE_AMT : -SCALE_AMT;//scales
-	if (keycode == QKEY || keycode == EKEY)
-		mastermap->rotatez += (keycode == EKEY) ? 1 : -1;//rotate
-	if (keycode == ONEKEY || keycode == TWOKEY)
-		mastermap->rotatey += (keycode == TWOKEY) ? -1 : +1;//rotate
-	if (keycode == RKEY || keycode == FKEY)
-		mastermap->rotatex += (keycode == RKEY) ? -1 : +1;//rotate
-	if (keycode == PKEY)
-		mastermap->perspective = (mastermap->perspective == 0) ? 1 : 0;//turn perspective mode on
-	if (keycode == SPACKEY)
-		initialize(mastermap);//reset
-	calculate_proj(mastermap);
-//	ft_putnbr(mastermap->rotatey);
-//	ft_putchar(',');
-//	ft_putnbr(mastermap->rotatex);
-//	ft_putchar('\n');
-	
-//	ft_putnbr(mastermap->mapcords[0].px);
-//	ft_putchar(',');
-//	ft_putnbr(mastermap->mapcords[0].py);
-//	ft_putchar('\n');
-	draw_map(mastermap);
+		mastermap->ytrans += (keycode == SKEY) ? +TRANSLAT_AMT : -TRANSLAT_AMT;
+	if (keycode == PLUSKEY || keycode == MINUSKEY)
+		mastermap->scale += (keycode == PLUSKEY) ? -SCALE_AMT : SCALE_AMT;
+	if (keycode == SEVENKEY || keycode == NINEKEY)
+		mastermap->rotatez += (keycode == NINEKEY) ? 1 : -1;
+	if (keycode == FOURKEY || keycode == SIXKEY)
+		mastermap->rotatey += (keycode == SIXKEY) ? -1 : 1;
+	if (keycode == EIGHTKEY || keycode == TWOKEY)
+		mastermap->rotatex += (keycode == TWOKEY) ? 1 : -1;
+	if (keycode == ONEKEY)
+		mastermap->perspective = (mastermap->perspective == 0) ? 1 : 0;
+	if (keycode == THREEKEY)
+		mastermap->color = (mastermap->color == 0) ? 1 : 0;
+	key_event_two(keycode, mastermap);
 	return (0);
 }
