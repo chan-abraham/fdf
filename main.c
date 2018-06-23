@@ -35,7 +35,10 @@ int		main(int argc, char **argv)
 		if (!(mastermap = (t_map *)malloc(sizeof(t_map))))
 			return (0);
 		if (!(mastermap = readnparse(argv[1], mastermap)))
+		{
+			ft_memdel((void **)&mastermap);
 			return (0);
+		}
 		mastermap->mlx = mlx_init();
 		mastermap->win = mlx_new_window(mastermap->mlx, WNDW_WDTH, WNDW_HGHT,
 				"FDF");

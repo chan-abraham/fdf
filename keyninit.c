@@ -6,7 +6,7 @@
 /*   By: abchan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 20:12:42 by abchan            #+#    #+#             */
-/*   Updated: 2018/06/22 16:30:00 by abchan           ###   ########.fr       */
+/*   Updated: 2018/06/23 12:24:40 by abchan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 #define FOURKEY 86
 #define FIVEKEY 87
 #define SIXKEY 88
-#define SEVENKEY 89
+#define QKEY 12
 #define EIGHTKEY 91
-#define NINEKEY 92
+#define EKEY 14
 #define PLUSKEY 78
 #define MINUSKEY 69
 #define SPACKEY 49
@@ -58,18 +58,21 @@ int		key_event_two(int keycode, t_map *mastermap)
 {
 	if (keycode == SPACKEY)
 	{
+		if (!mastermap->initializekey)
+		{
+			ft_putendl("*********************************");
+			ft_putendl("**WASD = translation*************");
+			ft_putendl("**NUMPAD 2 & 8 = x axis rotate***");
+			ft_putendl("**NUMPAD 4 & 6 = y axis rotate***");
+			ft_putendl("**QE = z axis rotate*************");
+			ft_putendl("**NUMPAD + & - = scale***********");
+			ft_putendl("**NUMPAD 1 = perspective toggle**");
+			ft_putendl("**NUMPAD 3 = color toggle********");
+			ft_putendl("**SPACE BAR = reset**************");
+			ft_putendl("**ESC = EXIT*********************");
+			ft_putendl("*********************************");
+		}
 		initialize(mastermap);
-		ft_putendl("*********************************");
-		ft_putendl("**WASD = translation*************");
-		ft_putendl("**NUMPAD 2 & 8 = x axis rotate***");
-		ft_putendl("**NUMPAD 4 & 6 = y axis rotate***");
-		ft_putendl("**NUMPAD 7 & 9 = z axis rotate***");
-		ft_putendl("**NUMPAD + & - = scale***********");
-		ft_putendl("**NUMPAD 1 = perspective toggle**");
-		ft_putendl("**NUMPAD 3 = color toggle********");
-		ft_putendl("**SPACE BAR = reset**************");
-		ft_putendl("**ESC = EXIT*********************");
-		ft_putendl("*********************************");
 	}
 	if (mastermap->initializekey)
 	{
@@ -93,8 +96,8 @@ int		key_event(int keycode, t_map *mastermap)
 		mastermap->ytrans += (keycode == SKEY) ? +TRANSLAT_AMT : -TRANSLAT_AMT;
 	if (keycode == PLUSKEY || keycode == MINUSKEY)
 		mastermap->scale += (keycode == PLUSKEY) ? -SCALE_AMT : SCALE_AMT;
-	if (keycode == SEVENKEY || keycode == NINEKEY)
-		mastermap->rotatez += (keycode == NINEKEY) ? 1 : -1;
+	if (keycode == QKEY || keycode == EKEY)
+		mastermap->rotatez += (keycode == EKEY) ? 1 : -1;
 	if (keycode == FOURKEY || keycode == SIXKEY)
 		mastermap->rotatey += (keycode == SIXKEY) ? -1 : 1;
 	if (keycode == EIGHTKEY || keycode == TWOKEY)

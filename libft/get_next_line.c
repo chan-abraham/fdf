@@ -6,7 +6,7 @@
 /*   By: abchan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 13:46:24 by abchan            #+#    #+#             */
-/*   Updated: 2018/04/24 21:12:19 by abchan           ###   ########.fr       */
+/*   Updated: 2018/06/22 15:43:11 by abchan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** this is the main function that checks for the end of a line.
 ** a pointer points to save, and iterates until it gets to a newline or a null
-** terminator. if it is a newline, it saves it to line, and sets the save 
+** terminator. if it is a newline, it saves it to line, and sets the save
 ** as whatever is remainder after the newline.
 */
 
@@ -37,7 +37,8 @@ int				check_it(char **line, char **save)
 
 /*
 ** this function is necessary for the way i wrote gnl. if there is no newline
-** ending the file, this would save that information to the line, and clear the save
+** ending the file, this would save that information to the line, and clear
+** the save
 */
 
 int				doublecheck_it(char **line, char **save, const int fd)
@@ -54,9 +55,9 @@ int				doublecheck_it(char **line, char **save, const int fd)
 
 /*
 ** this function merges existing save with buf. the whole thing with creating
-** a tmp and all that messy garbage is so the previous save can be properly deleted.
-** i think there is a cleaner way to do it but im a noob and this makes sense to me and
-** this works and i can't be bothered
+** a tmp and all that messy garbage is so the previous save can be properly
+** deleted. i think there is a cleaner way to do it but im a noob and this
+** makes sense to me and this works and i can't be bothered
 */
 
 static char		*copy_it(char *buf, char *save)
@@ -95,7 +96,7 @@ char			*save_it(char **save, char *buf, int readit)
 ** this function reads and sends stuff to their functions and checks crap
 ** the save array is 5000, apparently this is around max fd
 ** i didn't really do much research into this but some guy told me
-** hes really smart so i believed him. 
+** hes really smart so i believed him.
 */
 
 int				get_next_line(const int fd, char **line)
