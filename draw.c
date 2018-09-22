@@ -69,7 +69,7 @@ long	get_color(t_map *mastermap, float steps, float z, float color)
 	while (i >= 0)
 		slope = slope + pow(16, i--);
 	slope = slope * value;
-	return (5521727 + slope);
+	return ((5521727 + slope) > 0xFFFFFF ? 0xFFFFFF : (5521727 + slope));
 }
 
 /*

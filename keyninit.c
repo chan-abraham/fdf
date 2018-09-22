@@ -12,22 +12,42 @@
 
 #include "fdf.h"
 
+
+/*
+** about the keycodes: initially when I made this program, I was using a full
+** keyboard with a numberpad. Using that, it was a more intuitive interface to
+** put some of the rotation and feature keys on there. However, after a few
+** months, when I got a laptop, I realized that my fdf didn't work fully on my
+** laptop because it doesnt have a numpad!!! So, as i am writing this, I am
+** rekeying the keys so this program would work on the laptop. (I decided not to
+** change the macro names for the keys because lazy, but maybe i'll change it
+** later.)
+**
+** side note, while writing this, the thought came in to mind a language
+** encryption system based on the keycode. Probably an idea thought of by many
+** novice programmers, but I'd thought I'd document this thought anyway.
+** 09/21/18 - sfo on the way to Pittsburgh to visit emilee
+** side side note, while writing this, i thought it might be nice to document
+** my comments with my location and just what I am doing/thoughts while I'm
+** doing this. maybe it will make a more fun way to read it.
+*/
+
 #define ESCKEY 53
 #define WKEY 13
 #define AKEY 0
 #define SKEY 1
 #define DKEY 2
-#define ONEKEY 83
-#define TWOKEY 84
-#define THREEKEY 85
-#define FOURKEY 86
-#define FIVEKEY 87
-#define SIXKEY 88
+#define ONEKEY 258 //shift key now
+#define TWOKEY 125 //down arrow
+#define THREEKEY 44 //'/' key
+#define FOURKEY 123 // <-
+#define FIVEKEY 87 //don't know why i even keyed this
+#define SIXKEY 124 //->
 #define QKEY 12
-#define EIGHTKEY 91
+#define EIGHTKEY 126 // up arrow
 #define EKEY 14
-#define PLUSKEY 78
-#define MINUSKEY 69
+#define PLUSKEY 24
+#define MINUSKEY 27
 #define SPACKEY 49
 
 void	free_mlx(t_map *mastermap)
@@ -60,17 +80,17 @@ int		key_event_two(int keycode, t_map *mastermap)
 	{
 		if (!mastermap->initializekey)
 		{
-			ft_putendl("*********************************");
-			ft_putendl("**WASD = translation*************");
-			ft_putendl("**NUMPAD 2 & 8 = x axis rotate***");
-			ft_putendl("**NUMPAD 4 & 6 = y axis rotate***");
-			ft_putendl("**QE = z axis rotate*************");
-			ft_putendl("**NUMPAD + & - = scale***********");
-			ft_putendl("**NUMPAD 1 = perspective toggle**");
-			ft_putendl("**NUMPAD 3 = color toggle********");
-			ft_putendl("**SPACE BAR = reset**************");
-			ft_putendl("**ESC = EXIT*********************");
-			ft_putendl("*********************************");
+			ft_putendl("**********************************");
+			ft_putendl("**WASD = translation**************");
+			ft_putendl("**UP & DOWN ARROW = x axis rotate*");
+			ft_putendl("**<- & -> = y axis rotate*********");
+			ft_putendl("**QE = z axis rotate**************");
+			ft_putendl("** + & - = scale******************");
+			ft_putendl("**SHIFT = perspective toggle******");
+			ft_putendl("**/ = color toggle****************");
+			ft_putendl("**SPACE BAR = reset***************");
+			ft_putendl("**ESC = EXIT**********************");
+			ft_putendl("**********************************");
 		}
 		initialize(mastermap);
 	}

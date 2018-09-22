@@ -12,8 +12,8 @@
 
 #ifndef FDF_H
 # define FDF_H
-# define WNDW_HGHT 1000
-# define WNDW_WDTH 2000
+# define WNDW_HGHT 720
+# define WNDW_WDTH 1280
 # define TRANSLAT_AMT 10
 # define SCALE_AMT 2
 # include "libft/libft.h"
